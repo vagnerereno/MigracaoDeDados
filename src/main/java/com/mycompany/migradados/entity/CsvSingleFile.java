@@ -17,6 +17,9 @@ public class CsvSingleFile {
     String email;
     String validityDate;    
 
+    public CsvSingleFile() {
+    }
+    
     public CsvSingleFile(String name, String taxNumber, String phoneNumber, String email, String validityDate) {
         this.name = name;
         this.taxNumber = taxNumber;

@@ -5,12 +5,14 @@
  */
 package com.mycompany.migradados.presenter;
 
+import com.mycompany.migradados.entity.CsvSingleFile;
 import com.mycompany.migradados.entity.User;
 import com.mycompany.migradados.entity.Wallet;
 import com.mycompany.migradados.interactor.FileInteractor;
 import com.mycompany.migradados.interactor.MigraDadosInteractor;
 import com.mycompany.migradados.view.MigraDadosView;
 import java.io.IOException;
+import java.util.List;
 
 /**
  *
@@ -48,7 +50,18 @@ public class MigraDadosPresenter {
         view.showErrorMessage(message);
     }
 
-    public void readCsv(String migracaocsv) throws IOException {
-        fileInteractor.readFile(migracaocsv);
+    public void readCsv(String migracaocsv, String companyId, String CompanyRoleId) throws IOException {
+        List<CsvSingleFile> data = fileInteractor.readFile(migracaocsv);
+        for (CsvSingleFile file : data) {
+            User user = new User(file.getName(), file.getTaxNumber(), file.getPhoneNumber(), file.getEmail());
+            Wallet wallet = new Wallet(user.getId(), companyId, CompanyRoleId, file.getValidityDate());
+            try {
+                if (migraDadosInteractor.insertUser(user)) {
+                    migraDadosInteractor.insertWallet(wallet);
+                }
+            } catch (Exception e) {
+                view.showErrorMessage(e.getLocalizedMessage());
+            }
+        }
     }
 }

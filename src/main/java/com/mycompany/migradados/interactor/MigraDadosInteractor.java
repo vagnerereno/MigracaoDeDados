@@ -21,7 +21,7 @@ public class MigraDadosInteractor {
         this.presenter = presenter;
     }
     
-    public void insertUser(User user) {
+    public boolean insertUser(User user) {
 
         DBConnection connection = new DBConnection();
         String insertUsers = "INSERT INTO public.users (id, name, tax_number, password, phone_number, email) "
@@ -32,8 +32,10 @@ public class MigraDadosInteractor {
 
         if (result > 0) {
             presenter.onUserRegistred("Usuários inseridos com sucesso.");
+            return true;
         } else {
             presenter.onError("Erro ao inserir usuários.");
+            return false;
         }
     }
 
@@ -42,9 +44,9 @@ public class MigraDadosInteractor {
         DBConnection connection = new DBConnection();
 
         String insertWallets = "INSERT INTO public.wallets(id, user_id, company_id, company_role_id, validity_date) "
-                + " VALUES (' " + wallet.getId() + "', ' " + wallet.getUserId() + "', "
-                + "' " + wallet.getCompanyId() + " ', " + "' " + wallet.getCompanyRoleId() + " ', "
-                + "' " + wallet.getValidityDate() + " ');";
+                + " VALUES ('" + wallet.getId() + "', '" + wallet.getUserId() + "', "
+                + "'" + wallet.getCompanyId() + "', " + "'" + wallet.getCompanyRoleId() + "', "
+                + "'" + wallet.getValidityDate() + "');";
         int result = connection.executaSql(insertWallets);
 
         if (result > 0) {

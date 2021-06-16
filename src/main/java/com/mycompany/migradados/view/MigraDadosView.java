@@ -26,7 +26,7 @@ public class MigraDadosView {
         
         MigraDadosView migraDadosView = new MigraDadosView();
 
-        migraDadosView.readCsv("migracao.csv");
+        migraDadosView.readCsv("migracao.csv", companyId, companyRoleId);
     }
 
     public void showMessage(String message) {
@@ -37,7 +37,7 @@ public class MigraDadosView {
         System.err.println(message);
     }
 
-    private void readCsv(String migracaocsv) throws IOException {
-        presenter.readCsv(migracaocsv);
+    private void readCsv(String migracaocsv, String companyId, String companyRoleId) throws IOException {
+        presenter.readCsv(migracaocsv, companyId, companyRoleId);
     }
 }

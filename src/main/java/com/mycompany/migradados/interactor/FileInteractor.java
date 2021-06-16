@@ -29,20 +29,15 @@ public class FileInteractor {
         this.presenter = presenter;
     }
 
-    public void readFile(String fileName) throws IOException {
+    public List<CsvSingleFile> readFile(String fileName) throws IOException {
         Reader reader = Files.newBufferedReader(Paths.get(fileName));
 
         CsvToBean<CsvSingleFile> csvToBean = new CsvToBeanBuilder(reader)
                .withType(CsvSingleFile.class)
                .build();
 
-        System.out.println("Antes da lista");
-        List<CsvSingleFile> csvSingleFiles = csvToBean.parse();
-        System.out.println("Depois da lista");
-
-       for (CsvSingleFile csvSingleFile : csvSingleFiles) {
-           System.out.println(csvSingleFile);
-        }
+        List<CsvSingleFile> csvSingleFiles; 
+        return csvToBean.parse();
     }
 
 }
