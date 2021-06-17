@@ -16,12 +16,12 @@ import java.sql.Statement;
  */
 public class DBConnection {
 
-    String DB_CONNECTION = "pg";
-    String PG_HOST = "jdbc:postgresql://localhost";
-    String PG_PORT = "5432";
-    String PG_USER = "postgres";
-    String PG_PASSWORD = "database";
-    String PG_DB_NAME = "inovadigital";
+    public static String DB_CONNECTION = "pg";
+    public static String PG_HOST = "jdbc:postgresql://localhost";
+    public static String PG_PORT = "5432";
+    public static String PG_USER = "postgres";
+    public static String PG_PASSWORD = "database";
+    public static String PG_DB_NAME = "inovadigital";
 
     public Connection connect() {
         Connection conexao = null;
@@ -39,16 +39,20 @@ public class DBConnection {
         return conexao;
     }
 
-    public int executaSql(String sql) {
+    public String executaSql(String sql) {
         try {
             Statement stm = connect().createStatement();
             int res = stm.executeUpdate(sql);
             connect().close();
-            return res;
-       } catch (Exception e) {
-            e.printStackTrace();
-            return 0;
+
+            if (res > 0) {
+                return "sucesso.";
+            } else {
+                return "não foi possível inserir dados.";
+            }
+        } catch (Exception e) {
+            return e.getLocalizedMessage();
         }
-    
+
     }
 }

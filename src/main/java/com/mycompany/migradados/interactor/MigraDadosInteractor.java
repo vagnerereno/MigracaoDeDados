@@ -28,13 +28,13 @@ public class MigraDadosInteractor {
                 + "VALUES ('" + user.getId() + "', '" + user.getName() + "',"
                 + " '" + user.getTaxNumber() + "', '" + user.getTaxNumber() + "',"
                 + " '" + user.getPhoneNumber() + "',  '" + user.getEmail() + "');";
-        int result = connection.executaSql(insertUsers);
-
-        if (result > 0) {
+        String result = connection.executaSql(insertUsers);
+        
+        if (result.toLowerCase().contains("sucesso".toLowerCase())) {
             presenter.onUserRegistred("Usuários inseridos com sucesso.");
             return true;
         } else {
-            presenter.onError("Erro ao inserir usuários.");
+            presenter.onError("Erro ao inserir usuários: " + result);
             return false;
         }
     }
@@ -47,13 +47,12 @@ public class MigraDadosInteractor {
                 + " VALUES ('" + wallet.getId() + "', '" + wallet.getUserId() + "', "
                 + "'" + wallet.getCompanyId() + "', " + "'" + wallet.getCompanyRoleId() + "', "
                 + "'" + wallet.getValidityDate() + "');";
-        int result = connection.executaSql(insertWallets);
-
-        if (result > 0) {
+        String result = connection.executaSql(insertWallets);
+        
+        if (result.toLowerCase().contains("sucesso".toLowerCase())) {
             presenter.onWalletRegistred("Carteirinhas inseridas com sucesso.");
         } else {
-            presenter.onError("Erro ao inserir carteirinhas.");
+            presenter.onError("Erro ao inserir carteirinhas: " + result);
         }
     }
-
 }
